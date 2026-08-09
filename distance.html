@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Distance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef4fb;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            padding: 30px;
+            max-width: 480px;
+            width: 100%;
+            text-align: center;
+        }
+        h2 {
+            color: #1c5faa;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            color: #555555;
+            margin-top: 0;
+        }
+        button {
+            background-color: #1c5faa;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            font-size: 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #164a85;
+        }
+        #status {
+            color: #1c5faa;
+            font-weight: bold;
+        }
+        #error {
+            background-color: #fdecea;
+            color: #b3261e;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            text-align: left;
+            line-height: 1.5;
+        }
+        #result {
+            background-color: #f4f8fc;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            text-align: left;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>How Far From University?</h2>
+        <p class="subtitle">Kaung Htoo Tint | 240702404707</p>
+
+        <p class="subtitle">University: Kasem Bundit University, Romklao Campus</p>
+
+        <button onclick="checkDistance()">Check My Distance</button>
+        <button onclick="history.back()">Back</button>
+
+        <p id="status"></p>
+        <div id="error"></div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        var uniLat = 13.8016;
+        var uniLong = 100.7345;
+
+        function checkDistance() {
+            if (!navigator.geolocation) {
+                document.getElementById("error").innerHTML =
+                    "Your browser does not support location services. Please try a different browser.";
+                return;
+            }
+            document.getElementById("status").innerHTML = "Getting your location...";
+            document.getElementById("error").innerHTML = "";
+            document.getElementById("result").innerHTML = "";
+            navigator.geolocation.getCurrentPosition(showDistance, showError, {
+                timeout: 10000
+            });
+        }
+
+        function showDistance(position) {
+            var myLat = position.coords.latitude;
+            var myLong = position.coords.longitude;
+            var accuracy = position.coords.accuracy;
+
+            var x = myLat - uniLat;
+            var y = myLong - uniLong;
+
+            var distance = Math.sqrt(x * x + y * y);
+            var distanceKm = distance * 111;
+
+            document.getElementById("status").innerHTML = "";
+            document.getElementById("error").innerHTML = "";
+            document.getElementById("result").innerHTML =
+                "<b>Your Latitude:</b> " + myLat.toFixed(4) + "<br>" +
+                "<b>Your Longitude:</b> " + myLong.toFixed(4) + "<br>" +
+                "<b>Location Accuracy:</b> ±" + Math.round(accuracy) + " meters<br><br>" +
+                "<b>University Latitude:</b> " + uniLat + "<br>" +
+                "<b>University Longitude:</b> " + uniLong + "<br><br>" +
+                "<b>Distance (degrees):</b> " + distance.toFixed(4) + "<br>" +
+                "<b>Distance (approx. km):</b> " + distanceKm.toFixed(2) + " km";
+        }
+
+        function showError(error) {
+            document.getElementById("status").innerHTML = "";
+            var message = "Something went wrong while getting your location.";
+
+            if (error.code === error.PERMISSION_DENIED) {
+                message = "Could not access your location. This usually means either location permission was denied for this site, or your device's GPS/location services are turned off. Please turn on GPS in your device settings and allow location access, then try again.";
+            } else if (error.code === error.POSITION_UNAVAILABLE) {
+                message = "Your location is currently unavailable. Please check that GPS or location services are turned on.";
+            } else if (error.code === error.TIMEOUT) {
+                message = "Getting your location took too long. Please check your connection and try again.";
+            }
+
+            document.getElementById("error").innerHTML = message;
+        }
+    </script>
+</body>
+</html>

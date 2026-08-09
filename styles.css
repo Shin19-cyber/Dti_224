@@ -1,0 +1,70 @@
+```css
+body {
+    font-family: Arial, sans-serif;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    line-height: 1.6;
+    color: #333;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    color: #0d6efd;
+    margin-bottom: 5px;
+}
+
+.section {
+    margin-top: 25px;
+}
+
+.section h2 {
+    border-bottom: 2px solid #0d6efd;
+    padding-bottom: 5px;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+
+/* Other Pages Section */
+
+.page-links {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.page-links h2 {
+    border-bottom: 2px solid #0d6efd;
+    padding-bottom: 8px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.page-button {
+    display: inline-block;
+    padding: 12px 22px;
+    background-color: #0d6efd;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.page-button:hover {
+    background-color: #084298;
+    transform: translateY(-2px);
+}
+```

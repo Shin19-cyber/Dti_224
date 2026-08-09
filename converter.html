@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Measurement Converter</title>
+</head>
+<body>
+
+    <h2>Measurement Converter</h2>
+
+    <!-- Simple label, inline input field, and inline submit button -->
+    <label>Enter Inch: </label>
+    <input type="number" id="inchInput" value="3">
+    <button onclick="convertInchToCm()">Submit</button>
+
+    <!-- Empty spacing break followed by the text result placement -->
+    <br><br>
+    <div id="resultDisplay">Equal to 7.62 cm</div>
+
+<script>
+function convertInchToCm() {
+    // 1. Get the value from the input field
+    var inches = document.getElementById("inchInput").value;
+    
+    // 2. Perform the exact mathematical formula conversion logic
+    var cm = parseFloat(inches) * 2.54;
+    
+    // 3. Write the exact phrase structure back to the HTML document[cite: 7]
+    document.getElementById("resultDisplay").innerHTML = "Equal to " + cm + " cm";
+}
+</script>
+
+</body>
+</html>
