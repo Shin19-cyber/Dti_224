@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mobile Application Development</title>
+    
+    <!-- PWA Manifest Link & Theme Color -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -28,6 +33,17 @@
 
         <p class="footer-text">DTI224 JavaScript Lab</p>
     </div>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('PWA Service Worker Registered:', reg))
+            .catch(err => console.log('Service Worker Registration Failed:', err));
+        });
+      }
+    </script>
 
 </body>
 </html>
