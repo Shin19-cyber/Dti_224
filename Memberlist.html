@@ -1,127 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Member List Management</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 500px;
-      margin: 40px auto;
-      padding: 20px;
-    }
-    .input-group {
-      margin-bottom: 20px;
-    }
-    input[type="text"] {
-      padding: 8px;
-      width: 200px;
-      font-size: 14px;
-    }
-    button {
-      padding: 8px 12px;
-      margin-left: 5px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    ul {
-      list-style-type: square;
-      padding-left: 20px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member List Management</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-  <h2>Member List Management</h2>
+<div class="card">
+    <div class="header">
+        <h1>Member List</h1>
+    </div>
 
-  <div class="input-group">
-    <input type="text" id="memberNameInput" placeholder="Enter member name">
-    <button onclick="AddMember()">Add</button>
-    <button onclick="RemoveMember()">Remove</button>
-  </div>
+    <div class="section">
+        <div style="margin-bottom: 20px; text-align: center;">
+            <input type="text" id="memberNameInput" placeholder="Enter member name" style="padding: 8px; width: 170px; font-size: 14px;">
+            <button onclick="AddMember()" class="back-button" style="padding: 8px 10px;">Add</button>
+            <button onclick="RemoveMember()" class="back-button" style="padding: 8px 10px; background-color: #dc2626;">Remove</button>
+        </div>
 
-  <h3>Current Members:</h3>
-  <ul id="memberList"></ul>
+        <h2>Current Members:</h2>
+        <ul id="memberList"></ul>
+    </div>
 
-  <script>
-    // 1. Function to display the member list stored in Local Storage
+    <div class="button-container">
+        <a href="index.html" class="back-button">Back to Menu</a>
+    </div>
+</div>
+
+<script>
     function DisplayMemberList() {
-      const listElement = document.getElementById("memberList");
-      listElement.innerHTML = ""; // Clear current list in DOM
+        const listElement = document.getElementById("memberList");
+        listElement.innerHTML = "";
 
-      // Retrieve members array from localStorage, or default to an empty array
-      const members = JSON.parse(localStorage.getItem("members")) || [];
+        const members = JSON.parse(localStorage.getItem("members")) || [];
 
-      // Render each member as a list item
-      members.forEach((member) => {
-        const li = document.createElement("li");
-        li.textContent = member;
-        listElement.appendChild(li);
-      });
+        members.forEach((member) => {
+            const li = document.createElement("li");
+            li.textContent = member;
+            listElement.appendChild(li);
+        });
     }
 
-    // 2. Function to add a new member to Local Storage
     function AddMember() {
-      const input = document.getElementById("memberNameInput");
-      const name = input.value.trim();
+        const input = document.getElementById("memberNameInput");
+        const name = input.value.trim();
 
-      if (name === "") {
-        alert("Please enter a valid member name.");
-        return;
-      }
+        if (name === "") {
+            alert("Please enter a valid member name.");
+            return;
+        }
 
-      // Retrieve existing list from Local Storage
-      let members = JSON.parse(localStorage.getItem("members")) || [];
+        let members = JSON.parse(localStorage.getItem("members")) || [];
+        members.push(name);
+        localStorage.setItem("members", JSON.stringify(members));
 
-      // Add new member
-      members.push(name);
-
-      // Save updated array back to Local Storage[cite: 2]
-      localStorage.setItem("members", JSON.stringify(members));
-
-      // Clear the input field
-      input.value = "";
-
-      // Call DisplayMemberList again as instructed
-      DisplayMemberList();
+        input.value = "";
+        DisplayMemberList();
     }
 
-    // 3. Function to remove a member from Local Storage
     function RemoveMember() {
-      const input = document.getElementById("memberNameInput");
-      const name = input.value.trim();
+        const input = document.getElementById("memberNameInput");
+        const name = input.value.trim();
 
-      if (name === "") {
-        alert("Please enter a member name to remove.");
-        return;
-      }
+        if (name === "") {
+            alert("Please enter a member name to remove.");
+            return;
+        }
 
-      // Retrieve existing list from Local Storage
-      let members = JSON.parse(localStorage.getItem("members")) || [];
+        let members = JSON.parse(localStorage.getItem("members")) || [];
+        const initialLength = members.length;
+        members = members.filter(member => member.toLowerCase() !== name.toLowerCase());
 
-      // Filter out the specified member
-      const initialLength = members.length;
-      members = members.filter(member => member.toLowerCase() !== name.toLowerCase());
+        if (members.length === initialLength) {
+            alert("Member not found.");
+            return;
+        }
 
-      if (members.length === initialLength) {
-        alert("Member not found.");
-        return;
-      }
-
-      // Save updated array back to Local Storage[cite: 2]
-      localStorage.setItem("members", JSON.stringify(members));
-
-      // Clear the input field
-      input.value = "";
-
-      // Call DisplayMemberList again as instructed
-      DisplayMemberList();
+        localStorage.setItem("members", JSON.stringify(members));
+        input.value = "";
+        DisplayMemberList();
     }
 
-    // Initialize list display when the page loads
     window.onload = DisplayMemberList;
-  </script>
+</script>
 
 </body>
 </html>
