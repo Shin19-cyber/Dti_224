@@ -1,30 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Calculate Grade</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate Grade</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
 
-<div>
+<div class="card">
+    <div class="header">
+        <h1>Calculate Grade</h1>
+    </div>
 
-    <h1>Calculate Grade</h1>
+    <div class="section" style="text-align: center;">
+        <label for="score">Enter Score: </label>
+        <input type="number" id="score" style="padding: 6px; width: 100px; font-size: 14px;">
+        <button onclick="calculateGrade()" class="back-button" style="padding: 6px 12px; margin-left: 5px;">Submit</button>
 
-    <label>Enter Amount:</label>
+        <p id="result" style="font-weight: bold; font-size: 16px; margin-top: 15px;"></p>
+    </div>
 
-    <input type="number" id="score">
-
-    <button onclick="calculateGrade()">Submit</button>
-
-    <p id="result"></p>
-
+    <div class="button-container">
+        <a href="index.html" class="back-button">Back to Menu</a>
+    </div>
 </div>
 
 <script>
-
 function calculateGrade(){
-
     let score = Number(document.getElementById("score").value);
     let grade = "";
 
@@ -45,9 +48,7 @@ function calculateGrade(){
     }
 
     document.getElementById("result").innerHTML = "You got an " + grade;
-
 }
-
 </script>
 
 </body>
