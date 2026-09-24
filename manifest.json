@@ -1,20 +1,21 @@
 {
-  "short_name": "WebApp",
-  "name": "My Progressive Web App",
+  "short_name": "JS Lab",
+  "name": "Mobile Application Development Lab",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "https://via.placeholder.com/192/2563eb/ffffff?text=App",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "icon-512.png",
+      "src": "https://via.placeholder.com/512/2563eb/ffffff?text=App",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
   "start_url": "./index.html",
-  "background_color": "#ffffff",
-  "theme_color": "#0d6efd",
-  "display": "standalone"
+  "background_color": "#f0f4f8",
+  "theme_color": "#2563eb",
+  "display": "standalone",
+  "orientation": "portrait"
 }
