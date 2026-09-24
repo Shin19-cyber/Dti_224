@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag & Drop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-border-box;
+        }
+
+        .card {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 420px;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            text-align: center;
+        }
+
+        h2 {
+            color: #1c5faa;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .container-wrapper {
+            display: flex;
+            justify-content: space-around;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .drop-zone {
+            width: 150px;
+            height: 150px;
+            border: 2px dashed #3b82f6;
+            border-radius: 12px;
+            background-color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            touch-action: none; /* Prevents screen scrolling on touch drag */
+        }
+
+        .drop-zone span {
+            position: absolute;
+            color: #94a3b8;
+            font-size: 13px;
+            pointer-events: none;
+        }
+
+        #dragItem {
+            width: 110px;
+            height: 110px;
+            border-radius: 8px;
+            cursor: grab;
+            user-select: none;
+            -webkit-user-drag: element;
+            z-index: 10;
+        }
+
+        #dragItem:active {
+            cursor: grabbing;
+        }
+
+        .back-button {
+            display: inline-block;
+            background-color: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>Drag & Drop</h2>
+        <p class="subtitle">Move the image in and out of the boxes (Works on PC & Mobile)</p>
+
+        <div class="container-wrapper">
+            <!-- Box 1 (Source Area) -->
+            <div class="drop-zone" id="box1" ondragover="allowDrop(event)" ondrop="drop(event)">
+                <span>Box 1</span>
+                <img id="dragItem" 
+                     src="https://via.placeholder.com/110/3b82f6/ffffff?text=Drag+Me" 
+                     alt="Draggable Item" 
+                     draggable="true" 
+                     ondragstart="drag(event)">
+            </div>
+
+            <!-- Box 2 (Target Area) -->
+            <div class="drop-zone" id="box2" ondragover="allowDrop(event)" ondrop="drop(event)">
+                <span>Box 2</span>
+            </div>
+        </div>
+
+        <a href="index.html" class="back-button">Back to Menu</a>
+    </div>
+
+    <script>
+        // --- 1. PC HTML5 DRAG & DROP API ---
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            var draggedElement = document.getElementById(data);
+
+            // Ensure dropping into the zone element
+            var targetZone = ev.target.closest('.drop-zone');
+            if (targetZone) {
+                targetZone.appendChild(draggedElement);
+            }
+        }
+
+        // --- 2. MOBILE TOUCH DRAG & DROP SUPPORT ---
+        const dragItem = document.getElementById("dragItem");
+        let initialX, initialY;
+        let originalParent = null;
+
+        dragItem.addEventListener("touchstart", function(e) {
+            originalParent = dragItem.parentElement;
+            const touch = e.touches[0];
+            initialX = touch.clientX;
+            initialY = touch.clientY;
+
+            dragItem.style.position = "fixed";
+            dragItem.style.left = (touch.clientX - 55) + "px";
+            dragItem.style.top = (touch.clientY - 55) + "px";
+        }, { passive: false });
+
+        dragItem.addEventListener("touchmove", function(e) {
+            e.preventDefault(); // Stop screen scrolling while dragging
+            const touch = e.touches[0];
+            dragItem.style.left = (touch.clientX - 55) + "px";
+            dragItem.style.top = (touch.clientY - 55) + "px";
+        }, { passive: false });
+
+        dragItem.addEventListener("touchend", function(e) {
+            const touch = e.changedTouches[0];
+            
+            // Reset fixed positioning styles
+            dragItem.style.position = "static";
+            dragItem.style.left = "auto";
+            dragItem.style.top = "auto";
+
+            // Identify element under touch release position
+            const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
+            const targetZone = dropTarget ? dropTarget.closest('.drop-zone') : null;
+
+            if (targetZone) {
+                targetZone.appendChild(dragItem);
+            } else if (originalParent) {
+                originalParent.appendChild(dragItem);
+            }
+        });
+    </script>
+
+</body>
+</html>
